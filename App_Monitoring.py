@@ -1,7 +1,7 @@
-# app.py
 from flask import Flask
 import random, time
 from prometheus_client import Counter, Histogram, generate_latest
+from waitress import serve   #import here, not inside a function
 
 app = Flask(__name__)
 
@@ -20,5 +20,6 @@ def home():
 def metrics():
     return generate_latest(), 200, {'Content-Type': 'text/plain; charset=utf-8'}
 
+# Production server with Waitress
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    serve(app, host="0.0.0.0", port=5000)
